@@ -21,3 +21,4 @@ Server/MagicStreamMovie/.env
 .env
 *.env
 
+dump/
