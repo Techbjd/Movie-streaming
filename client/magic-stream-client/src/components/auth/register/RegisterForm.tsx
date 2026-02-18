@@ -10,6 +10,7 @@ import api from "@/api/axiosConfig"
 import Select from "react-select"
 import type { MultiValue } from "react-select"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 interface GenreType {
   genre_id: string
   genre_name: string
@@ -67,7 +68,7 @@ const RegisterForm = () => {
       mode: "onChange",
   })
 
-
+console.log(error)
   const [selectedGenres, setSelectedGenres] = useState<MultiValue<SelectOption>>([])
 
   const [loading, setLoading] = useState(false)
@@ -107,9 +108,14 @@ const RegisterForm = () => {
       navigate("/login")
 
 
-    } catch (error: any) {
-      setError(error.Registerdata?.data?.message || "Registration failed")
-    }
+    }catch (error: unknown) {
+  if (axios.isAxiosError(error)) {
+    setError(error.response?.data?.message || "Registration failed")
+  } else {
+    setError("Registration failed")
+  }
+}
+
     finally {
       setLoading(false)
     }
